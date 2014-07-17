@@ -35,6 +35,13 @@
 
     <packaging>wisdom</packaging>
 
+    <scm>
+        <url>https://github.com/wisdom-framework/wisdom-mustache-template-engine/</url>
+        <connection>scm:git:git@github.com:wisdom-framework/wisdom-mustache-template-engine.git</connection>
+        <developerConnection>scm:git:git@github.com:wisdom-framework/wisdom-mustache-template-engine.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>org.wisdom-framework</groupId>
