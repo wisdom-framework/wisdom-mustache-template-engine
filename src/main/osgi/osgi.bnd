@@ -1,0 +1,11 @@
+Import-Package: com.google.common.base, \
+ com.google.common.cache, \
+ com.google.common.io, \
+ com.google.common.util.concurrent, \
+ com.twitter.util;resolution:=optional, \
+ org.jruby.*;resolution:=optional, \
+ scala*;resolution:=optional, \
+ *
+Export-Package: com.twitter.mustache;version=0.8.15;-split-package:=merge-first, \
+    com.github.mustachejava*;version=0.8.15;-split-package:=merge-first
+Private-Package: org.wisdom.framework.mustache

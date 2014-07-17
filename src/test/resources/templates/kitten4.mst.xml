@@ -1,0 +1,5 @@
+<cats>
+    {{#items}}
+    <cat>name: {{name}} - age: {{age}}</cat>
+    {{/items}}
+</cats>
