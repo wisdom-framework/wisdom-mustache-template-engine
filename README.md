@@ -1,4 +1,4 @@
-= Mustache Template Engine for Wisdom
+# Mustache Template Engine for Wisdom
 
 [Mustache](http://mustache.github.io/) is a logic-less templates. It can be used from almost any language. This 
 extension provides the [Mustache Template Language](http://mustache.github.io/mustache.5.html) for server-side 
@@ -6,7 +6,7 @@ templating. It relies on [Mustache.java](https://github.com/spullara/mustache.ja
 and so inherits from all its features. This extension can be used along with Thymeleaf, 
 the default template engine of Wisdom.
 
-== Usage
+## Usage
 
 To use Mustache, just add the following Maven dependency to you `pom.xml` file:
 
@@ -91,7 +91,7 @@ public class MyController extends DefaultController {
 }
 ```
 
-== Accessing HTTP data from the templates
+## Accessing HTTP data from the templates
 
 This extension automatically injects HTTP data in the template context. Are accessible:
 
@@ -100,7 +100,7 @@ This extension automatically injects HTTP data in the template context. Are acce
 * HTTP parameters
   
 
-== Template as a Service
+## Template as a Service
 
 Don't forget that every template matching one of the extensions listed above is exposed as an OSGi service, 
 and so inherits from its dynamic. This also implies that `partials` are resolved at runtime.
