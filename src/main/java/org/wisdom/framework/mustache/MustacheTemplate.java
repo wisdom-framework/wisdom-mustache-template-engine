@@ -82,7 +82,7 @@ public class MustacheTemplate implements Template {
             Reader reader = new InputStreamReader(stream);
             this.compiled = msf.compile(reader, path);
         } catch (IOException e) {
-            throw new IllegalStateException("Cannot read template " + url.toExternalForm());
+            throw new IllegalStateException("Cannot read template " + url.toExternalForm(), e);
         } finally {
             IOUtils.closeQuietly(stream);
         }
@@ -179,9 +179,15 @@ public class MustacheTemplate implements Template {
         // If we have a HTTP context, extract data.
         Context ctx = org.wisdom.api.http.Context.CONTEXT.get();
         if (ctx != null) {
+            // The order is important:
+            // 1) session
             context.putAll(ctx.session().getData());
+
+            // 2) current flash and then ongoing flash
             context.putAll(ctx.flash().getCurrentFlashCookieData());
             context.putAll(ctx.flash().getOutgoingFlashCookieData());
+
+            // 3) the parameters.
             for (Map.Entry<String, List<String>> entry : ctx.parameters().entrySet()) {
                 if (entry.getValue().size() == 1) {
                     context.put(entry.getKey(), entry.getValue().get(0));
@@ -190,6 +196,8 @@ public class MustacheTemplate implements Template {
                 }
             }
         }
+
+        // 4) the variables given by the controller.
         context.putAll(variables);
 
         StringWriter writer = new StringWriter();
@@ -205,7 +213,8 @@ public class MustacheTemplate implements Template {
      */
     @Override
     public Renderable render(Controller controller) {
-        return render(controller, new HashMap<String, Object>());
+        // We give an empty map to the other methods. As the map is not reused, there is no 'read-only' issues.
+        return render(controller, Collections.<String, Object>emptyMap());
     }
 
     /**

@@ -34,7 +34,8 @@ import java.io.File;
 import java.net.MalformedURLException;
 
 /**
- * A Chameleon deployer tracking template files.
+ * A Chameleon deployer tracking template files for Mustasche.
+ * This class is similar to the deployer used in the Thymeleaf based implementation of the template support.
  */
 @Service
 public class TemplateDeployer extends AbstractDeployer implements Deployer {
@@ -94,7 +95,7 @@ public class TemplateDeployer extends AbstractDeployer implements Deployer {
      */
     @Override
     public boolean accept(File file) {
-        return file.getName().endsWith(".mst")  || file.getName().contains(".mst.");
+        return file.getName().endsWith(".mst") || file.getName().contains(".mst.");
     }
 
     /**
@@ -105,6 +106,8 @@ public class TemplateDeployer extends AbstractDeployer implements Deployer {
     @Override
     public void onFileCreate(File file) {
         try {
+            // We are defensive here as we may being under a reload. So the engine is not there,
+            // but we still have event to process.
             if (engine != null) {
                 engine.addTemplate(file.toURI().toURL());
             }
@@ -120,6 +123,8 @@ public class TemplateDeployer extends AbstractDeployer implements Deployer {
      */
     @Override
     public void onFileChange(File file) {
+        // We are defensive here as we may being under a reload. So the engine is not there,
+        // but we still have event to process.
         if (engine != null) {
             engine.updatedTemplate(file);
         }
@@ -132,6 +137,8 @@ public class TemplateDeployer extends AbstractDeployer implements Deployer {
      */
     @Override
     public void onFileDelete(File file) {
+        // We are defensive here as we may being under a reload. So the engine is not there,
+        // but we still have event to process.
         if (engine != null) {
             engine.deleteTemplate(file);
         }

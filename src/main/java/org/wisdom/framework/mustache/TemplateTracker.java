@@ -28,7 +28,6 @@ import org.osgi.util.tracker.BundleTrackerCustomizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -42,15 +41,27 @@ import java.util.List;
 @Instantiate
 public class TemplateTracker implements BundleTrackerCustomizer<List<MustacheTemplate>> {
 
+    /**
+     * The directory containing templates.
+     */
+    private static final String TEMPLATE_DIRECTORY_IN_BUNDLES = "/templates";
+
+    /**
+     * The logger.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(TemplateTracker.class);
 
+    /**
+     * The collector.
+     */
     @Requires(proxy = false)
     MustacheTemplateCollector engine;
 
+    /**
+     * The bundle context.
+     */
     @Context
     BundleContext context;
-
-    private static final String TEMPLATE_DIRECTORY_IN_BUNDLES = "/templates";
 
     /**
      * The tracker.
@@ -86,6 +97,8 @@ public class TemplateTracker implements BundleTrackerCustomizer<List<MustacheTem
         List<MustacheTemplate> list = new ArrayList<>();
         Enumeration<URL> urls = bundle.findEntries(TEMPLATE_DIRECTORY_IN_BUNDLES, "*.mst*", true);
         if (urls == null) {
+            // No match, but it may come later, so return an empty list
+            // to still be notified of the other events.
             return list;
         }
         while (urls.hasMoreElements()) {

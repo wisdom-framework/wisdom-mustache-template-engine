@@ -34,7 +34,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * Extends the default {@link com.github.mustachejava.DefaultMustacheFactory} to customize the cache system.
+ * Extends the default {@link com.github.mustachejava.DefaultMustacheFactory} to customize the cache system and the
+ * template lookup.  The template lookup needs to be customized to allow {@literal partial} resolution. By default,
+ * it uses the TTCL or the current classloader which does not work in OSGi environment. This resolution is then
+ * done by checking the template collected by the {@link org.wisdom.framework.mustache.MustacheTemplateCollector}. This
+ * strategy works because the template are compiled on the first use (and partials are resolved at that time).
  */
 public class ExtendedMustacheFactory extends DeferringMustacheFactory {
 
