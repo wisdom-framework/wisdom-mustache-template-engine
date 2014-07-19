@@ -41,12 +41,16 @@ import java.util.*;
  * mst.plain and mst.html. In all the other case, {@literal text/plain} is used.
  */
 public class MustacheTemplate implements Template {
+
+    /**
+     * The template location.
+     */
     public static final String TEMPLATES = "/templates/";
 
     private final URL url;
     private final DefaultMustacheFactory msf;
     protected Mustache compiled;
-    private final String name;
+    private final String path;
     private final String mime;
 
     /**
@@ -61,11 +65,11 @@ public class MustacheTemplate implements Template {
         String externalForm = templateURL.toExternalForm();
         int indexOfTemplates = externalForm.indexOf(TEMPLATES);
         if (indexOfTemplates == -1) {
-            this.name = FilenameUtils.getBaseName(templateURL.getFile());
+            this.path = FilenameUtils.getBaseName(templateURL.getFile());
         } else {
             String name = externalForm.substring(indexOfTemplates + TEMPLATES.length());
             int extIndex = name.indexOf(".mst");
-            this.name = name.substring(0, extIndex);
+            this.path = name.substring(0, extIndex);
         }
 
         mime = getMimeTypeForURL(externalForm);
@@ -76,7 +80,7 @@ public class MustacheTemplate implements Template {
         try {
             stream = this.url.openStream();
             Reader reader = new InputStreamReader(stream);
-            this.compiled = msf.compile(reader, name);
+            this.compiled = msf.compile(reader, path);
         } catch (IOException e) {
             throw new IllegalStateException("Cannot read template " + url.toExternalForm());
         } finally {
@@ -84,7 +88,15 @@ public class MustacheTemplate implements Template {
         }
     }
 
-    public String getMimeTypeForURL(String externalForm) {
+    /**
+     * Gets the mime types for the template having the given url.
+     *
+     * @param externalForm the external form of the template's url.
+     * @return the mime type, {@literal TEXT/PLAIN} if not found. The detection is based on the url's extension. Are
+     * supported {@literal .mst.html}, {@literal .mst.json}, and {@literal .mst.xml}. Others are considered as
+     * {@literal text/plain}.
+     */
+    public static String getMimeTypeForURL(String externalForm) {
         if (externalForm.endsWith(".mst.html")) {
             return MimeTypes.HTML;
         } else if (externalForm.endsWith(".mst.json")) {
@@ -97,24 +109,33 @@ public class MustacheTemplate implements Template {
         }
     }
 
+    /**
+     * Checks whether the given url has the right extension to be managed by the Mustache Template Engine.
+     *
+     * @param externalForm the external form of the template's url.
+     * @return {@code true} if the template's url ends with {@literal .mst} or contains {@literal .mst.}.
+     */
     public static boolean isMustacheTemplate(String externalForm) {
         return externalForm.endsWith(".mst") || externalForm.contains(".mst.");
     }
 
+    /**
+     * @return the full url of the template source.
+     */
     public URL getURL() {
         return url;
     }
 
     /**
-     * @return the template name, usually the template file name without the extension.
+     * @return the template path, usually the template file path without the extension.
      */
     @Override
     public String name() {
-        return name;
+        return path;
     }
 
     /**
-     * @return the template full name. For example, for a file, it will be the file name (including extension).
+     * @return the template full path. For example, for a file, it will be the file path (including extension).
      */
     @Override
     public String fullName() {
@@ -122,7 +143,7 @@ public class MustacheTemplate implements Template {
     }
 
     /**
-     * @return the name of the template engine, generally the name of the technology.
+     * @return the path of the template engine, generally the path of the technology.
      */
     @Override
     public String engine() {
@@ -187,8 +208,11 @@ public class MustacheTemplate implements Template {
         return render(controller, new HashMap<String, Object>());
     }
 
-    public Dictionary<String, ?> getServiceProperties() {
-        Dictionary<String, String> props = new Hashtable<>();
+    /**
+     * @return the service properties exposed for the current template instance.
+     */
+    public Dictionary getServiceProperties() {
+        Properties props = new Properties();
         props.put("name", name());
         props.put("fullName", fullName());
         props.put("mimetype", mimetype());

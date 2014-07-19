@@ -85,7 +85,7 @@ public class ExtendedMustacheFactory extends DeferringMustacheFactory {
                 try {
                     return IOUtils.toBufferedReader(new StringReader(IOUtils.toString(template.getURL())));
                 } catch (IOException e) {
-                    throw new MustacheException("Cannot read the template " + name);
+                    throw new MustacheException("Cannot read the template " + name, e);
                 }
             }
         }

@@ -47,6 +47,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MustacheTemplateCollector implements TemplateEngine {
 
     /**
+     * The extension of the file managed by this template engine.
+     */
+    public static final String EXTENSION = "mst.*";
+    /**
      * The bundle context.
      */
     private final BundleContext context;
@@ -102,7 +106,7 @@ public class MustacheTemplateCollector implements TemplateEngine {
      */
     @Override
     public String extension() {
-        return "mst.*";
+        return EXTENSION;
     }
 
     /**

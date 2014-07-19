@@ -55,7 +55,9 @@ public class TemplateDeployer extends AbstractDeployer implements Deployer {
      */
     private File directory;
 
-
+    /**
+     * Starts the deployer. This method registers a watcher on the template directory.
+     */
     @Validate
     public void start() {
         LOGGER.info("Starting mustache template deployer");
@@ -63,13 +65,16 @@ public class TemplateDeployer extends AbstractDeployer implements Deployer {
         directory = configuration.getFileWithDefault("application.template.directory", "templates");
         if (!directory.isDirectory()) {
             LOGGER.info("Creating the template directory : {}", directory.getAbsolutePath());
-            directory.mkdirs();
+            LOGGER.debug("Creation : " + directory.mkdirs());
         }
         LOGGER.info("Template directory set to {}", directory.getAbsolutePath());
 
         watcher.add(new File(configuration.getBaseDir(), "templates"), true);
     }
 
+    /**
+     * Stops the deployer. This method unregisters the watcher on the template directory.
+     */
     @Invalidate
     public void stop() {
         try {
@@ -82,14 +87,14 @@ public class TemplateDeployer extends AbstractDeployer implements Deployer {
 
     /**
      * Checks whether the given file is a HTML file, and if it is and the file does exist,
-     * check it contains the 'th' prefix indicating a thymeleaf template.
+     * check it contains the '.mst.*' pattern indicating a Mustache template.
      *
      * @param file the file
      * @return {@literal true} if the file is accepted by the current deployer, {@literal false} otherwise
      */
     @Override
     public boolean accept(File file) {
-        return file.getName().contains(".mst");
+        return file.getName().endsWith(".mst")  || file.getName().contains(".mst.");
     }
 
     /**

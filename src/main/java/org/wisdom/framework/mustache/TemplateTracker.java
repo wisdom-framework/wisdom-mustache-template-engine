@@ -53,13 +53,13 @@ public class TemplateTracker implements BundleTrackerCustomizer<List<MustacheTem
     private static final String TEMPLATE_DIRECTORY_IN_BUNDLES = "/templates";
 
     /**
-     * The directory containing templates.
+     * The tracker.
      */
-    private File directory;
-
     private BundleTracker<List<MustacheTemplate>> tracker;
 
-
+    /**
+     * Starts the tracker.
+     */
     @Validate
     public void start() {
         LOGGER.info("Starting Mustache template tracker");
@@ -67,6 +67,9 @@ public class TemplateTracker implements BundleTrackerCustomizer<List<MustacheTem
         tracker.open();
     }
 
+    /**
+     * Closes silently the tracker.
+     */
     @Invalidate
     public void stop() {
         try {
