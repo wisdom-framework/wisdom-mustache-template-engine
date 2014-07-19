@@ -77,7 +77,7 @@ public class TemplateDeployerTest {
         deployer.engine = mock(MustacheTemplateCollector.class);
         when(deployer.engine.extension()).thenReturn(MustacheTemplateCollector.EXTENSION);
 
-        assertThat(deployer.accept(new File("src/test/resources/templates/kitten2.mst2.json"))).isTrue();
+        assertThat(deployer.accept(new File("src/test/resources/templates/kitten2.mst.json"))).isTrue();
         // no th: in this file:
         assertThat(deployer.accept(new File("src/test/resources/templates/kitten.json"))).isFalse();
     }
