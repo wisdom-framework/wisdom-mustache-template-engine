@@ -1,0 +1,22 @@
+{
+    "name": "wisdom-mustache-template-engine",
+    "version":"1.0-SNAPSHOT",
+    "description": "Mustache is logic-less templates. It can be used from almost any language. This extension provides the Mustache Template Language for server-side templating. It relies on Mustache.java, and so inherits from all its features. ",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/wisdom-framework/wisdom-mustache-template-engine"
+    },
+
+    "author": "The Wisdom Team",
+    "license": {
+            "type": "Apache",
+            "url": "https://github.com/wisdom-framework/wisdom-mustache-template-engine/blob/master/LICENSE"
+        },
+    "homepage": "https://github.com/wisdom-framework/wisdom-mustache-template-engine",
+    "keywords": [
+        "logic-less templates"
+        
+        
+    ]
+}
+
