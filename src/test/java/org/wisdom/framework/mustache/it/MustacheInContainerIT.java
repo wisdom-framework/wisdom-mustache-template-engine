@@ -32,12 +32,10 @@ import org.wisdom.api.http.MimeTypes;
 import org.wisdom.api.http.Renderable;
 import org.wisdom.api.templates.Template;
 import org.wisdom.framework.mustache.Cat;
-import org.wisdom.framework.mustache.MustacheTemplate;
 import org.wisdom.test.WisdomRunner;
 import org.wisdom.test.parents.WisdomTest;
 
 import javax.annotation.Nullable;
-import java.io.File;
 import java.net.MalformedURLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -166,11 +164,28 @@ public class MustacheInContainerIT extends WisdomTest {
         ));
 
         assertThat(renderable.mimetype()).isEqualTo(MimeTypes.HTML);
-        System.out.println(renderable.content());
-//        assertThat((String) renderable.content())
-//                .contains("Hello Wisdom")
-//                .contains("You have just won 10000 dollars!")
-//                .contains("Well, 6000.0 dollars, after taxes.");
+        assertThat((String) renderable.content())
+                .contains("<strong>romeo</strong")
+                .contains("<strong>gros minet</strong>")
+                .contains("<strong>tom</strong>");
+    }
+
+    @Test
+    public void testInheritance() throws MalformedURLException {
+        Template template = osgi.getServiceObject(Template.class, "(name=inheritance/home/welcome)");
+        assertThat(template.engine()).isEqualTo("mustache");
+        assertThat(template.mimetype()).isEqualTo(MimeTypes.HTML);
+
+        Renderable renderable = template.render(new DefaultController() {
+                                                }, ImmutableMap.<String, Object>of(
+                        "title", "Hello Wisdom", "name", "you")
+        );
+
+        assertThat(renderable.mimetype()).isEqualTo(MimeTypes.HTML);
+        assertThat((String) renderable.content())
+                .contains("<title>Welcome page</title>")
+                .contains("<p>Content from base</p>")
+                .contains("<h1>Hello you,");
     }
 
 
