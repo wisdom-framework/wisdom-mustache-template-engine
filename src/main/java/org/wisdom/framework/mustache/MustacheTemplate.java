@@ -195,6 +195,11 @@ public class MustacheTemplate implements Template {
                     context.put(entry.getKey(), entry.getValue());
                 }
             }
+
+            // 4) request scope
+            for (Map.Entry<String, Object> entry : ctx.request().data().entrySet()) {
+                context.put(entry.getKey(), entry.getValue());
+            }
         }
 
         // 4) the variables given by the controller.
