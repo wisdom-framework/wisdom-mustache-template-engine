@@ -74,7 +74,7 @@ public class ExtendedMustacheFactory extends DeferringMustacheFactory {
     }
 
     /**
-     * Gets a {@link java.io.Reader} object on the source of the template having the given name. This mehtod is used
+     * Gets a {@link java.io.Reader} object on the source of the template having the given name. This method is used
      * to resolved partials.
      *
      * @param name the name of the template
