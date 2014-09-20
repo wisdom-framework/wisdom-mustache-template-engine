@@ -23,6 +23,7 @@ import com.github.mustachejava.DeferringMustacheFactory;
 import com.github.mustachejava.FragmentKey;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheException;
+import com.google.common.io.Files;
 import org.apache.commons.io.IOUtils;
 import org.wisdom.api.templates.Template;
 
@@ -83,9 +84,14 @@ public class ExtendedMustacheFactory extends DeferringMustacheFactory {
      */
     @Override
     public Reader getReader(String name) {
+        // On windows the path containing '..' are not stripped from the path, so we ensure they are.
+        String simplified = name;
+        if (name.contains("..")) {
+            simplified = Files.simplifyPath(name);
+        }
         for (Template t : collector.getTemplates()) {
             MustacheTemplate template = (MustacheTemplate) t;
-            if (template.name().equals(name)) {
+            if (template.name().equals(simplified)) {
                 try {
                     return IOUtils.toBufferedReader(new StringReader(IOUtils.toString(template.getURL())));
                 } catch (IOException e) {
