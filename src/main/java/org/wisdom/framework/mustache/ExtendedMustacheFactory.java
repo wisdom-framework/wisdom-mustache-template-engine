@@ -89,6 +89,10 @@ public class ExtendedMustacheFactory extends DeferringMustacheFactory {
         if (name.contains("..")) {
             simplified = Files.simplifyPath(name);
         }
+        // Take into account absolute path
+        if (simplified.startsWith("/") && simplified.length() > 1) {
+            simplified = simplified.substring(1, simplified.length());
+        }
         for (Template t : collector.getTemplates()) {
             MustacheTemplate template = (MustacheTemplate) t;
             if (template.name().equals(simplified)) {

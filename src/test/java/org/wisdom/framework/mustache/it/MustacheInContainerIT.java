@@ -171,6 +171,29 @@ public class MustacheInContainerIT extends WisdomTest {
     }
 
     @Test
+    public void testPartialsUsingAbsolutePath() throws MalformedURLException {
+        Template template = osgi.getServiceObject(Template.class, "(name=mustache/baseUsingAbsolutePath)");
+        assertThat(template.engine()).isEqualTo("mustache");
+        assertThat(template.mimetype()).isEqualTo(MimeTypes.HTML);
+        assertThat(template.name()).isEqualTo("mustache/baseUsingAbsolutePath");
+
+        Renderable renderable = template.render(new DefaultController() {
+        }, ImmutableMap.<String, Object>of(
+                "names", ImmutableList.of(
+                        ImmutableMap.of("name", "romeo"),
+                        ImmutableMap.of("name", "gros minet"),
+                        ImmutableMap.of("name", "tom")
+                )
+        ));
+
+        assertThat(renderable.mimetype()).isEqualTo(MimeTypes.HTML);
+        assertThat((String) renderable.content())
+                .contains("<strong>romeo</strong")
+                .contains("<strong>gros minet</strong>")
+                .contains("<strong>tom</strong>");
+    }
+
+    @Test
     public void testInheritance() throws MalformedURLException {
         Template template = osgi.getServiceObject(Template.class, "(name=inheritance/home/welcome)");
         assertThat(template.engine()).isEqualTo("mustache");
