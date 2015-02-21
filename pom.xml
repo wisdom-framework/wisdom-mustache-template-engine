@@ -27,8 +27,12 @@
     <parent>
         <groupId>org.wisdom-framework</groupId>
         <artifactId>wisdom-framework</artifactId>
-        <version>0.6.4</version>
+        <version>0.7.0</version>
     </parent>
+
+    <properties>
+        <wisdom.version>0.7.0</wisdom.version>
+    </properties>
 
     <artifactId>wisdom-mustache-template-engine</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -96,7 +100,7 @@
         <dependency>
             <groupId>com.github.spullara.mustache.java</groupId>
             <artifactId>compiler</artifactId>
-            <version>0.8.15</version>
+            <version>0.9.0</version>
         </dependency>
     </dependencies>
 
@@ -106,7 +110,7 @@
                 <!-- Define all the versions of the dependencies provided by Wisdom -->
                 <groupId>org.wisdom-framework</groupId>
                 <artifactId>wisdom-bom</artifactId>
-                <version>0.6.4</version>
+                <version>${wisdom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -118,7 +122,7 @@
             <plugin>
                 <groupId>org.wisdom-framework</groupId>
                 <artifactId>wisdom-maven-plugin</artifactId>
-                <version>0.6.4</version>
+                <version>${wisdom.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                      <disableDistributionPackaging>true</disableDistributionPackaging>
@@ -148,19 +152,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>oss-snapshot</id>
-            <name>oss-snapshot</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>oss-snapshot</id>
-            <name>oss-snapshot</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </pluginRepository>
-    </pluginRepositories>
 </project>

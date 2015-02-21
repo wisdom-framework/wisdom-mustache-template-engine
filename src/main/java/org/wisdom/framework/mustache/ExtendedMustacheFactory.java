@@ -63,12 +63,12 @@ public class ExtendedMustacheFactory extends DeferringMustacheFactory {
      * @param template the template
      */
     public void clear(MustacheTemplate template) {
-        mustacheCache.invalidate(template.name());
+        mustacheCache.remove(template.name());
         if (template.compiled != null) {
-            ConcurrentMap<FragmentKey, Mustache> map = new ConcurrentHashMap<>(templateCache.asMap());
+            ConcurrentMap<FragmentKey, Mustache> map = new ConcurrentHashMap<>(templateCache);
             for (Map.Entry<FragmentKey, Mustache> entry : map.entrySet()) {
                 if (entry.getValue().equals(template.compiled)) {
-                    templateCache.invalidate(entry.getKey());
+                    templateCache.remove(entry.getKey());
                 }
             }
         }
