@@ -33,7 +33,7 @@
     </properties>
 
     <artifactId>wisdom-mustache-template-engine</artifactId>
-    <version>0.7</version>
+    <version>0.8-SNAPSHOT</version>
 
     <packaging>wisdom</packaging>
 
